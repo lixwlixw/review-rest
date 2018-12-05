@@ -12,9 +12,9 @@ import (
 const (
 	userName = "root"
 	password = "123456"
-	ip       = "10.1.0.39"
+	ip       = "10.8.131.199"
 	port     = "3306"
-	dbName   = "devops_cluster"
+	dbName   = "test"
 )
 
 //Db数据库连接池
