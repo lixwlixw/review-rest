@@ -10,11 +10,11 @@ import (
 
 //数据库配置
 const (
-	userName = "root"
-	password = "123456"
-	ip       = "10.8.131.199"
+	userName = "devuser"
+	password = "123qaz!@#"
+	ip       = "10.8.16.99"
 	port     = "3306"
-	dbName   = "test"
+	dbName   = "review"
 )
 
 //Db数据库连接池

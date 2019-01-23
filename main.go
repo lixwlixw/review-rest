@@ -11,6 +11,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/api/v1/approve", rf.GetDeploymentList)
 	r.GET("/api/v1/commitid", rf.GetCommitId)
+	r.GET("/api/v1/reviewid", rf.GetReviewId)
 	r.Run(":8008")
 
 }

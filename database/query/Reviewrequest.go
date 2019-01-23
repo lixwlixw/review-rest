@@ -101,3 +101,39 @@ func GetCommitId(commit string) []string {
         //fmt.Println("scanArgs:", scanArgs)
         return value
 }
+func GetReviewId() []string {
+
+	db := mydb.InitDB()
+	defer db.Close()
+	rows, err := db.Query("SELECT id FROM reviews_reviewrequest WHERE public = '1' AND status = 'p' AND time_added  >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")
+	if err != nil {
+		fmt.Println("err")
+	}
+	defer rows.Close()
+	columns, err := rows.Columns()
+	if err != nil {
+		panic(err.Error())
+	}
+	values := make([]sql.RawBytes, len(columns))
+	scanArgs := make([]interface{}, len(values))
+
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+	var value []string
+	for rows.Next() {
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			fmt.Println("log:", err)
+			panic(err.Error())
+		}
+		for _, col := range values {
+			if col == nil {
+				value = append(value, "NULL")
+			} else {
+				value = append(value, string(col))
+			}
+		}
+	}
+	return value
+}

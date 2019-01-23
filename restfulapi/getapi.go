@@ -10,6 +10,13 @@ import (
 type Ns struct {
 	Ns string `form:"commit" binding:"required"`
 }
+type Svcs struct {
+ Services   []Svc `json:"reviewid"`
+}
+
+type Svc struct {
+ Name string `json:"id"`
+}
 func GetDeploymentList(c *gin.Context) {
 
 	var commit Ns
@@ -35,4 +42,16 @@ func GetCommitId(c *gin.Context) {
         c.JSON(http.StatusOK, gin.H{
                 "id":myquery.GetCommitId(commit.Ns),
         })
+}
+
+func GetReviewId(c *gin.Context) {
+ services := Svcs{}
+ values := myquery.GetReviewId()
+ for i:=0;i<len(values);i++{
+svc := Svc{Name:values[i]}
+  services.Services = append(services.Services,svc)
+ }
+
+ c.JSON(200, services)
+ return
 }
