@@ -8,7 +8,10 @@ import (
 )
 type Ns struct {
 	Ns string `form:"commit" binding:"required"`
-        REID string `form:"id" binding:"required"`
+}
+type Nss struct {
+        Summ string `form:"summary" binding:"required"`
+        Reid string `form:"reviewid" binding:"required"`
 }
 type Svcs struct {
  Services   []Svc `json:"reviewid"`
@@ -57,7 +60,7 @@ svc := Svc{Name:values[i]}
 }
 
 func PostSummary(c *gin.Context) {
-        var Na Ns
+        var Na Nss
         if bindErr := c.Bind(&Na); bindErr != nil {
                 c.JSON(http.StatusBadRequest, gin.H{
                         "error": sq.ParamBindErr{Err: bindErr.Error()}.Error(),
@@ -65,6 +68,6 @@ func PostSummary(c *gin.Context) {
                 return
         }
         c.JSON(http.StatusOK, gin.H{
-                "update ok": myquery.PostSummary(Na.Ns, Na.REID),
+                "update ok": myquery.PostSummary(Na.Summ, Na.Reid),
         })
 }

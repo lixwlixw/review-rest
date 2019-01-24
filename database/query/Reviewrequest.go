@@ -138,12 +138,12 @@ func GetReviewId() []string {
 	return value
 }
 
-func PostSummary(commit string, id string) []string {
+func PostSummary(summary string, reviewid string) []string {
 
         //var a structerr.DeploymentsPool
         db := mydb.InitDB()
         defer db.Close()
-        rows, err := db.Query("update reviews_reviewrequest set summary = ? where id = ?", commit, id)
+        rows, err := db.Query("update reviews_reviewrequest set summary = ? where id = ?", summary, reviewid)
         if err != nil {
                 fmt.Println("err")
         }
