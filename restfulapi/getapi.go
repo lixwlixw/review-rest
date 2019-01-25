@@ -46,6 +46,19 @@ func GetCommitId(c *gin.Context) {
                 "id":myquery.GetCommitId(commit.Ns),
         })
 }
+func GetCommitReviewId(c *gin.Context) {
+
+        var commit Ns
+        if bindErr := c.Bind(&commit); bindErr != nil {
+                c.JSON(http.StatusBadRequest, gin.H{
+                        "error": sq.ParamBindErr{Err: bindErr.Error()}.Error(),
+                })
+                return
+        }
+        c.JSON(http.StatusOK, gin.H{
+                "id":myquery.GetCommitReviewId(commit.Ns),
+        })
+}
 
 func GetReviewId(c *gin.Context) {
  services := Svcs{}

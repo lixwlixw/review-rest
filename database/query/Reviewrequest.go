@@ -101,6 +101,50 @@ func GetCommitId(commit string) []string {
         //fmt.Println("scanArgs:", scanArgs)
         return value
 }
+func GetCommitReviewId(commit string) []string {
+
+        //var a structerr.DeploymentsPool
+        db := mydb.InitDB()
+        defer db.Close()
+        rows, err := db.Query("SELECT id FROM reviews_reviewrequest where commit_id = ? ", commit)
+        if err != nil {
+                fmt.Println("err")
+        }
+        defer rows.Close()
+        columns, err := rows.Columns()
+        if err != nil {
+                panic(err.Error())
+        }
+        //fmt.Println("columns:", columns)
+        values := make([]sql.RawBytes, len(columns))
+        //fmt.Println("values:", values)
+        scanArgs := make([]interface{}, len(values))
+        //fmt.Println("scanArgs:", scanArgs)
+        for i := range values {
+                scanArgs[i] = &values[i]
+                //fmt.Println("scanArgs:", scanArgs)
+                //fmt.Println("values:", values)
+        }
+        //fmt.Println("scanArgs:", scanArgs)
+        var value []string
+        for rows.Next() {
+                err = rows.Scan(scanArgs...)
+                if err != nil {
+                        fmt.Println("log:", err)
+                        panic(err.Error())
+                }
+                for _, col := range values {
+                        //fmt.Println("col:", col)
+                        if col == nil {
+                                value = append(value, "NULL")
+                        } else {
+                                value = append(value, string(col))
+                        }
+                }
+        }
+        //fmt.Println("scanArgs:", scanArgs)
+        return value
+}
 func GetReviewId() []string {
 
 	db := mydb.InitDB()
